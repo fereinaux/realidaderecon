@@ -67,12 +67,12 @@ function PrintQuarto(row) {
             doc = AddCabecalhoEvento(doc, titulo, $("#quarto-eventoid option:selected").text());
             doc.line(10, 38, 195, 38);
 
-            doc.setFontStyle("bold");
+            doc.setFont('helvetica', "bold")
             doc.text(12, 43, "Nome");
             doc.text(95, 43, window.location.href.includes('QuartoEquipe') ? "Apelido" : "Medicamento/Alergia");
 
             doc.line(10, 45, 195, 45);
-            doc.setFontType("normal");
+            doc.setFont('helvetica', "normal")
             height = 50;
 
             $(result.data).each((index, participante) => {
@@ -84,7 +84,7 @@ function PrintQuarto(row) {
 
             AddCount(doc, result.data, height);
 
-            PrintDoc(doc);
+            printDoc(doc);
         }
     });
 }
