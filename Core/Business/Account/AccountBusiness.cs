@@ -70,7 +70,6 @@ namespace Core.Business.Account
         public void Seed()
         {
             context.MeioPagamentos.AddOrUpdate(x => x.Descricao,
-              new Data.Entities.MeioPagamento { Descricao = MeioPagamentoPadraoEnum.Transferencia.GetDescription(), Taxa = 0, IsEditavel = false, Status = StatusEnum.Ativo },
               new Data.Entities.MeioPagamento { Descricao = MeioPagamentoPadraoEnum.Dinheiro.GetDescription(), Taxa = 0, IsEditavel = false, Status = StatusEnum.Ativo },
               new Data.Entities.MeioPagamento { Descricao = MeioPagamentoPadraoEnum.Isencao.GetDescription(), Taxa = 0, IsEditavel = false, Status = StatusEnum.Ativo }
             );

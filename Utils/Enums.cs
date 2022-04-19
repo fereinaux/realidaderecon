@@ -29,6 +29,8 @@ namespace Utils.Enums
         Nome,
         [Description("Apelido")]
         Apelido,
+        [Description("Camisa")]
+        Camisa,
         [Description("Gênero")]
         Genero,
         [Description("Data Nascimento")]
@@ -210,8 +212,6 @@ namespace Utils.Enums
 
     public enum MeioPagamentoPadraoEnum
     {
-        [Description("Pix")]
-        Transferencia,
         [Description("Dinheiro")]
         Dinheiro,
         [Description("Isenção")]
