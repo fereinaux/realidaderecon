@@ -114,7 +114,7 @@ ${GetButton('Pagamentos', JSON.stringify(row), 'verde', 'far fa-money-bill-alt',
                             </label>`: `<span style="font-size:18px" class="text-success p-l-xs pointer" onclick="toggleFoto(${data})"><i class="fa fa-camera" aria-hidden="true" title="Foto"></i></span>`
                         }
                             ${GetAnexosButton('Anexos', data, row.QtdAnexos)}
-                            ${GetIconWhatsApp(row.Fone)}
+                            <a target="_blank" href='https://api.whatsapp.com/send?phone=${row.Fone}' style="font-size:18px; color:green; " class="pointer p-l-xs"><i class="fab fa-whatsapp" aria-hidden="true" title="${row.Fone}"></i></a>
                             ${GetButton('EditParticipante', data, 'blue', 'fa-edit', 'Editar')}      
                          
                             ${GetButton('Opcoes', JSON.stringify(row), 'cinza', 'fas fa-info-circle', 'Opções')}
@@ -1088,6 +1088,7 @@ function PostParticipante() {
                     DataNascimento: moment($("#participante-data-nascimento").val(), 'DD/MM/YYYY', 'pt-br').toJSON(),
                     Email: $(`#participante-email`).val(),
                     Fone: $(`#participante-fone`).val(),
+                    Camisa: $(`#participante-camisa`).val(),
                     NomePai: $(`#participante-nomepai`).val(),
                     FonePai: $(`#participante-fonepai`).val(),
                     NomeMae: $(`#participante-nomemae`).val(),

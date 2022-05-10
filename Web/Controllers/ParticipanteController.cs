@@ -156,6 +156,7 @@ namespace SysIgreja.Controllers
                 Numero = x.Numero,
                 Complemento = x.Complemento,
                 Logradouro = x.Logradouro,
+                Camisa = x.Camisa,
                 Referencia = x.Referencia,
                 Medicacao = x.Medicacao,
                 Nome = x.Nome,

@@ -64,6 +64,7 @@ function PostParticipante() {
                         DataNascimento: moment($("#participante-data-nascimento").val(), 'DD/MM/YYYY', 'pt-br').toJSON(),
                         Email: $(`#participante-email`).val(),
                         Fone: $(`#participante-fone`).val(),
+                        Camisa: $(`#participante-camisa`).val(),
                         CEP: $(`#participante-cep`).val(),
                         Logradouro: $(`#participante-logradouro`).val(),
                         Bairro: $(`#participante-bairro`).val(),
@@ -179,6 +180,7 @@ function GetParticipante() {
                 $("#participante-data-nascimento").val(moment(data.Participante.DataNascimento).format('DD/MM/YYYY'));
                 $(`#participante-email`).val(data.Participante.Email);
                 $(`#participante-fone`).val(data.Participante.Fone);
+                $(`#participante-camisa`).val(data.Participante.Camisa);
                 $(`#participante-nome-pai`).val(data.Participante.NomePai);
                 $(`#participante-fone-pai`).val(data.Participante.FonePai);
                 $(`#participante-nome-mae`).val(data.Participante.NomeMae);

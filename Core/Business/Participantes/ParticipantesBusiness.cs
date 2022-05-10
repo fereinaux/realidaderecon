@@ -176,6 +176,7 @@ namespace Core.Business.Participantes
             participante.Email = model.Email;
             participante.CEP = model.CEP;
             participante.Logradouro = model.Logradouro;
+            participante.Camisa = model.Camisa;
             participante.Bairro = model.Bairro;
             participante.Cidade = model.Cidade;
             participante.Estado = model.Estado;
@@ -229,6 +230,7 @@ namespace Core.Business.Participantes
                 DataNascimento = model.DataNascimento?.AddHours(5),
                 Fone = model.Fone,
                 Email = model.Email,
+                Camisa = model.Camisa,
                 CEP = model.CEP,
                 Logradouro = model.Logradouro,
                 Bairro = model.Bairro,
