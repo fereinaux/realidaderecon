@@ -1,6 +1,10 @@
 ﻿@{
     ViewBag.Numero = new Random().Next();
 }
+@using System.Collections.Generic;
+@using System.Linq;
+@using Utils.Enums;
+@using Utils.Extensions;
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
@@ -475,6 +479,18 @@
 
                             <input type="number" step="any" value="0" class="form-control required" data-valor="@ViewBag.Valor" id="pagamentos-valor" data-field="Valor" />
                         </div>
+                        <div class="col-sm-6 p-w-md m-t-md text-center">
+                            <h5>Origem</h5>
+
+                            <input type="text" class="form-control " id="pagamentos-origem" data-field="Origem" />
+                        </div>
+                        <div class="col-sm-6 p-w-md m-t-md text-center">
+                            <h5>Data</h5>
+
+                            <input type="text" class="form-control full-date required" id="pagamentos-data" data-field="Data do Pagamento" />
+                        </div>
+
+
                         <div class="col-sm-12 p-md text-center">
                             <button type="button" class="btn btn-white" onclick="PostPagamento()">Salvar</button>
                         </div>

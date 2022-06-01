@@ -62,14 +62,6 @@ namespace SysIgreja.Controllers
             this.datatableService = datatableService;
             mapper = new MapperRealidade().mapper;
         }
-
-        public ActionResult ListaTelefonica()
-        {
-            ViewBag.Title = "Lista Telefônica";
-            GetEventos();
-            return View();
-        }
-
         public ActionResult Checkin()
         {
             ViewBag.Title = "Check-in";
@@ -98,18 +90,12 @@ namespace SysIgreja.Controllers
             return View();
         }
 
-        public ActionResult Boletos()
-        {
-            ViewBag.Title = "Boletos Solicitados";
-            GetEventos();
-
-            return View();
-        }
-
         public ActionResult Index()
         {
             ViewBag.Title = "Participantes";
             GetEventos();
+            GetConfiguracao();
+            GetCampos();
             ViewBag.MeioPagamentos = meioPagamentoBusiness.GetAllMeioPagamentos().ToList();
             ViewBag.Valor = (int)ValoresPadraoEnum.Inscricoes;
             ViewBag.ContasBancarias = contaBancariaBusiness.GetContasBancarias().ToList()
@@ -484,7 +470,7 @@ namespace SysIgreja.Controllers
                    Checkin = x.Checkin,
                    Idade = UtilServices.GetAge(x.DataNascimento),
                    Foto = x.Arquivos.Any(y => y.IsFoto) ? Convert.ToBase64String(x.Arquivos.FirstOrDefault(y => y.IsFoto).Conteudo) : "",
-                   Circulo = x.Circulos.LastOrDefault().Circulo.Cor.GetDescription()
+                   Circulo = x.Circulos?.LastOrDefault()?.Circulo?.Cor.GetDescription() ?? ""
                });
 
 

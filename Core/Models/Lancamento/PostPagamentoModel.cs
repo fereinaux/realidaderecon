@@ -8,6 +8,8 @@ namespace Core.Models.Lancamento
         public int? ParticipanteId { get; set; }
         public int? EquipanteId { get; set; }
         public int EventoId { get; set; }
+        public DateTime? Data { get; set; }
+        public string Origem { get; set; }
         public int MeioPagamentoId { get; set; }
         public int ContaBancariaId { get; set; }
         public decimal Valor { get; set; }

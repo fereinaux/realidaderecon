@@ -145,17 +145,14 @@ namespace Core.Business.Circulos
 
         public Circulo GetCirculoById(int id)
         {
-            return circuloRepository.GetAll(x => x.Id == id).Include(x => x.Dirigente1).Include(x => x.Dirigente1.Equipante)
-                .Include(x => x.Dirigente2).Include(x => x.Dirigente2.Equipante).FirstOrDefault();
+            return circuloRepository.GetAll(x => x.Id == id).Include(x => x.Equipante).Include(x => x.Equipante.Equipante).FirstOrDefault();
         }
 
         public IQueryable<Circulo> GetCirculos()
         {
             return circuloRepository.GetAll()
-                .Include(x => x.Dirigente1)
-                .Include(x => x.Dirigente1.Equipante)
-                .Include(x => x.Dirigente2)
-                .Include(x => x.Dirigente2.Equipante);
+                .Include(x => x.Equipante)
+                .Include(x => x.Equipante.Equipante);
         }
 
         public IQueryable<CirculoParticipante> GetCirculosComParticipantes(int eventoId)
@@ -163,10 +160,9 @@ namespace Core.Business.Circulos
             return circuloParticipanteRepository.GetAll(x => x.Circulo.EventoId == eventoId)
                 .Include(x => x.Participante)
                 .Include(x => x.Circulo)
-                .Include(x => x.Circulo.Dirigente1)
-                .Include(x => x.Circulo.Dirigente1.Equipante)
-                .Include(x => x.Circulo.Dirigente2)
-                .Include(x => x.Circulo.Dirigente2.Equipante).OrderBy(x => x.CirculoId);
+                .Include(x => x.Circulo.Equipante)
+                .Include(x => x.Circulo.Equipante.Equipante)
+                .OrderBy(x => x.CirculoId);
         }
 
         public IEnumerable<EnumExtensions.EnumModel> GetCores(int eventoId)
@@ -224,13 +220,13 @@ namespace Core.Business.Circulos
                 circulo = circuloRepository.GetById(model.Id);
                 circulo.Cor = model.Cor;
 
-                circulo.Dirigente1Id = model.Dirigente1Id;
+                circulo.EquipanteId = model.Dirigente1Id;
 
             }
             else
                 circulo = new Circulo
                 {
-                    Dirigente1Id = model.Dirigente1Id,
+                    EquipanteId = model.Dirigente1Id,
                     EventoId = model.EventoId,
                     Cor = model.Cor
                 };

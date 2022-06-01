@@ -122,6 +122,15 @@ namespace Core.Business.Equipes
                 .OrderBy(x => new { x.Tipo, x.Equipante.Nome });
         }
 
+
+        public IQueryable<EquipanteEvento> GetMembrosEquipeDatatable(int eventoId, EquipesEnum equipeId)
+        {
+            return equipanteEventoRepository
+                .GetAll(x => x.Equipe == equipeId && x.EventoId == eventoId)
+                .Include(x => x.Equipante)
+                .OrderBy(x => new { x.Tipo, x.Equipante.Nome });
+        }
+
         public IQueryable<PresencaReuniao> GetPresenca(int reuniaoId)
         {
             return presencaRepository.GetAll(x => x.ReuniaoId == reuniaoId);
