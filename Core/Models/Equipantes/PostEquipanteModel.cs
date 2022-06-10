@@ -22,6 +22,7 @@ namespace Core.Models.Equipantes
         public string RestricaoAlimentar { get; set; }
         public bool HasMedicacao { get; set; }
         public string Medicacao { get; set; }
+        public string Quarto { get; set; }
         public bool HasAlergia { get; set; }
         public bool HasVacina { get; set; }
         public bool HasTeste { get; set; }
