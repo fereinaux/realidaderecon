@@ -126,14 +126,27 @@ namespace Data.Context
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Circulo>()
-                .HasOptional<EquipanteEvento>(c => c.Dirigente1)
+                .HasOptional<EquipanteEvento>(c => c.Equipante)
                 .WithMany()
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<PresencaReuniao>()
+                .HasRequired<EquipanteEvento>(e => e.EquipanteEvento)
+                .WithMany(x => x.Presencas)
+                .WillCascadeOnDelete(true);
+
+
             modelBuilder.Entity<Circulo>()
-                .HasOptional<EquipanteEvento>(c => c.Dirigente2)
-                .WithMany()
-                .WillCascadeOnDelete(false);
+               .HasRequired<EquipanteEvento>(e => e.Equipante)
+               .WithMany(x => x.Circulos)
+               .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<CirculoParticipante>()
+   .HasRequired<Circulo>(e => e.Circulo)
+   .WithMany(x => x.Participantes)
+   .WillCascadeOnDelete(true);
+
+
 
             modelBuilder.Entity<EquipanteEvento>()
                 .HasOptional<Evento>(e => e.Evento)

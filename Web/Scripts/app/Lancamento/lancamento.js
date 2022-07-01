@@ -27,6 +27,7 @@
         buttons: getButtonsConfig('A Receber'),
         columns: [
             { data: "Descricao", name: "Descricao", autoWidth: true },
+            { data: "Origem", name: "Origem", autoWidth: true },
             { data: "CentroCusto", name: "CentroCusto", autoWidth: true },
             { data: "FormaPagamento", name: "FormaPagamento", autoWidth: true },
             { data: "Valor", name: "Valor", autoWidth: true },
@@ -55,14 +56,14 @@
             };
 
             total = api
-                .column(3, { selected: true, search: 'applied' })
+                .column(4, { selected: true, search: 'applied' })
                 .data()
                 .reduce(function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0);
 
 
-            $(api.column(3).footer()).html(
+            $(api.column(4).footer()).html(
                 total.toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL' })
             );
         }
@@ -83,8 +84,10 @@ function GetLancamento(id) {
                 $("#lancamento-id").val(data.Lancamento.Id);
                 $("#lancamento-centcusto").val(data.Lancamento.CentroCustoId);
                 $("#lancamento-descricao").val(data.Lancamento.Descricao);
+                $("#lancamento-origem").val(data.Lancamento.Origem);
                 $("#lancamento-observacao").val(data.Lancamento.Observacao);
                 $("#lancamento-meiopagamento").val(data.Lancamento.MeioPagamentoId);
+                $("#lancamento-data").val(moment(data.Lancamento.DataLancamento).format('DD/MM/YYYY'));
                 ChangeMeioPagamento();
                 $("#lancamento-contabancaria").val(data.Lancamento.ContaBancariaId > 0 ? data.Lancamento.ContaBancariaId : 0);
                 $("#lancamento-valor").val(data.Lancamento.Valor);
@@ -95,6 +98,7 @@ function GetLancamento(id) {
         $("#lancamento-id").val(0);
         $("#lancamento-centcusto").val($("#lancamento-centcusto option:first").val());
         $("#lancamento-descricao").val("");
+        $("#lancamento-origem").val("");
         $("#lancamento-observacao").val("");
         $("#lancamento-meiopagamento").val($("#lancamento-meiopagamento option:first").val());
         $("#lancamento-contabancaria").val($("#lancamento-contabancaria option:first").val());
@@ -158,8 +162,10 @@ function PostLancamento() {
                 {
                     Id: $("#lancamento-id").val(),
                     Descricao: $("#lancamento-descricao").val(),
+                    Origem: $("#lancamento-origem").val(),
                     Observacao: $("#lancamento-observacao").val(),
                     Tipo: $("#lancamento-tipo").val(),
+                    Data: moment($("#lancamento-data").val(), 'DD/MM/YYYY', 'pt-br').toJSON(),
                     MeioPagamentoId: $("#lancamento-meiopagamento").val(),
                     EventoId: $('#lancamento-eventoid').val(),
                     CentCustoId: $("#lancamento-centcusto").val(),

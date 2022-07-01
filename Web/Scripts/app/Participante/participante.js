@@ -114,7 +114,7 @@ ${GetButton('Pagamentos', JSON.stringify(row), 'verde', 'far fa-money-bill-alt',
                             </label>`: `<span style="font-size:18px" class="text-success p-l-xs pointer" onclick="toggleFoto(${data})"><i class="fa fa-camera" aria-hidden="true" title="Foto"></i></span>`
                         }
                             ${GetAnexosButton('Anexos', data, row.QtdAnexos)}
-                            ${GetIconWhatsApp(row.Fone)}
+                            <a target="_blank" href='https://api.whatsapp.com/send?phone=${row.Fone}' style="font-size:18px; color:green; " class="pointer p-l-xs"><i class="fab fa-whatsapp" aria-hidden="true" title="${row.Fone}"></i></a>
                             ${GetButton('EditParticipante', data, 'blue', 'fa-edit', 'Editar')}      
                          
                             ${GetButton('Opcoes', JSON.stringify(row), 'cinza', 'fas fa-info-circle', 'Opções')}
@@ -782,6 +782,8 @@ function Pagamentos(row) {
     realista = row;
     $("#pagamentos-whatsapp").val(row.Fone);
     $("#pagamentos-valor").val($("#pagamentos-valor").data("valor"));
+    $("#pagamentos-origem").val('')
+    $("#pagamentos-data").val(moment().format('DD/MM/YYYY'));
     $("#pagamentos-participanteid").val(row.Id);
     $("#pagamentos-meiopagamento").val($("#pagamentos-meiopagamento option:first").val());
     CarregarTabelaPagamentos(row.Id);
@@ -881,13 +883,17 @@ function PostPagamento() {
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(
                 {
+                    Origem: $("#pagamentos-origem").val(),
                     EventoId: $("#participante-eventoid").val(),
                     ParticipanteId: $("#pagamentos-participanteid").val(),
+                    Data: moment($("#pagamentos-data").val(), 'DD/MM/YYYY', 'pt-br').toJSON(),
                     MeioPagamentoId: $("#pagamentos-meiopagamento").val(),
                     ContaBancariaId: $('.contabancaria').hasClass('d-none') ? 0 : $("#pagamentos-contabancaria").val(),
                     Valor: Number($("#pagamentos-valor").val())
                 }),
             success: function () {
+                $("#pagamentos-origem").val('')
+                $("#pagamentos-data").val(moment().format('DD/MM/YYYY'));
                 CarregarTabelaPagamentos($("#pagamentos-participanteid").val());
                 SuccessMesageOperation();
             }
@@ -1088,6 +1094,7 @@ function PostParticipante() {
                     DataNascimento: moment($("#participante-data-nascimento").val(), 'DD/MM/YYYY', 'pt-br').toJSON(),
                     Email: $(`#participante-email`).val(),
                     Fone: $(`#participante-fone`).val(),
+                    Camisa: $(`#participante-camisa`).val(),
                     NomePai: $(`#participante-nomepai`).val(),
                     FonePai: $(`#participante-fonepai`).val(),
                     NomeMae: $(`#participante-nomemae`).val(),

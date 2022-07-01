@@ -1,13 +1,10 @@
-﻿using Core.Models.CentroCusto;
-using Core.Models.Configuracao;
-using Core.Models.Eventos;
+﻿using Core.Models.Configuracao;
 using Data.Entities;
 using Data.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using Utils.Enums;
 using Utils.Extensions;
 
 namespace Core.Business.Configuracao
@@ -25,10 +22,11 @@ namespace Core.Business.Configuracao
 
         public PostConfiguracaoModel GetConfiguracao()
         {
-            return repo.GetAll().Include(x => x.Logo).Include(x => x.Background).ToList().Select(x => new PostConfiguracaoModel
+            return repo.GetAll().Include(x => x.LogoRelatorio).Include(x => x.BackgroundCelular).Include(x => x.Logo).Include(x => x.Background).ToList().Select(x => new PostConfiguracaoModel
             {
                 Titulo = x.Titulo,
                 BackgroundId = x.BackgroundId,
+                BackgroundCelularId = x.BackgroundCelularId,
                 CorBotao = x.CorBotao,
                 CorHoverBotao = x.CorHoverBotao,
                 CorHoverScroll = x.CorHoverScroll,
@@ -37,9 +35,12 @@ namespace Core.Business.Configuracao
                 CorLoginBox = x.CorLoginBox,
                 CorScroll = x.CorScroll,
                 LogoId = x.LogoId,
+                LogoRelatorioId = x.LogoRelatorioId,
                 Logo = x.Logo != null ? Convert.ToBase64String(x.Logo.Conteudo) : "",
-                Background = x.Background != null ? Convert.ToBase64String(x.Background.Conteudo) : ""
-                
+                Background = x.Background != null ? Convert.ToBase64String(x.Background.Conteudo) : "",
+                LogoRelatorio = x.LogoRelatorio != null ? Convert.ToBase64String(x.LogoRelatorio.Conteudo) : "",
+                BackgroundCelular = x.BackgroundCelular != null ? Convert.ToBase64String(x.BackgroundCelular.Conteudo) : ""
+
             }).FirstOrDefault();
         }
 
@@ -106,6 +107,20 @@ namespace Core.Business.Configuracao
         {
             Data.Entities.Configuracao configuracao = repo.GetAll().FirstOrDefault();
             configuracao.LogoId = logoId;
+            repo.Save();
+        }
+
+        public void PostLogoRelatorio(int logoId)
+        {
+            Data.Entities.Configuracao configuracao = repo.GetAll().FirstOrDefault();
+            configuracao.LogoRelatorioId = logoId;
+            repo.Save();
+        }
+
+        public void PostBackgroundCelular(int backgroundId)
+        {
+            Data.Entities.Configuracao configuracao = repo.GetAll().FirstOrDefault();
+            configuracao.BackgroundCelularId = backgroundId;
             repo.Save();
         }
     }

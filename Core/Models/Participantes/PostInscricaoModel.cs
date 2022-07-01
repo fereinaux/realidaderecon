@@ -28,6 +28,7 @@ namespace Core.Models.Participantes
         public string Alergia { get; set; }
         public bool HasParente { get; set; }
         public string Parente { get; set; }
+        public string Camisa { get; set; }
         public string CEP { get; set; }
         public string Logradouro { get; set; }
         public string Complemento { get; set; }

@@ -102,6 +102,7 @@ function PostInscricao() {
                     Fone: $(`#participante-fone`).val(),
                     Instagram: $(`#participante-instagram`).val(),
                     Profissao: $(`#participante-profissao`).val(),
+                    Camisa: $(`#participante-camisa`).val(),
                     CEP: $(`#participante-cep`).val(),
                     Logradouro: $(`#participante-logradouro`).val(),
                     Bairro: $(`#participante-bairro`).val(),

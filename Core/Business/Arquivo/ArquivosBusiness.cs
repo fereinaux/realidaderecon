@@ -25,7 +25,7 @@ namespace Core.Business.Arquivos
         }
 
         public void DeleteFotoEquipante(int id)
-        {            
+        {
             arquivoRepository.Delete(arquivoRepository.GetAll(x => x.EquipanteId == id && x.IsFoto).FirstOrDefault().Id);
             arquivoRepository.Save();
         }
@@ -56,9 +56,14 @@ namespace Core.Business.Arquivos
             return arquivoRepository.GetAll(x => x.EquipanteId == equipanteId && x.EventoId == eventoId);
         }
 
+        public IQueryable<Arquivo> GetArquivosByEquipe(EquipesEnum Equipe)
+        {
+            return arquivoRepository.GetAll(x => x.Equipe == Equipe);
+        }
+
         public IQueryable<Arquivo> GetArquivosByEvento(int eventoId)
         {
-            return arquivoRepository.GetAll(x => x.EventoId == eventoId && !x.EquipanteId.HasValue );
+            return arquivoRepository.GetAll(x => x.EventoId == eventoId && !x.EquipanteId.HasValue);
         }
 
         public IQueryable<Arquivo> GetArquivosByLancamento(int lancamentoId)
@@ -82,6 +87,7 @@ namespace Core.Business.Arquivos
                     Nome = model.Arquivo.FileName,
                     Extensao = Path.GetExtension(model.Arquivo.FileName).Replace(".", "").ToUpper(),
                     EventoId = model.EventoId,
+                    Equipe = model.Equipe,
                     ParticipanteId = model.ParticipanteId,
                     EquipanteId = model.EquipanteId,
                     LancamentoId = model.LancamentoId,

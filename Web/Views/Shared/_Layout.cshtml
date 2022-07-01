@@ -11,7 +11,7 @@
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Realidade">
-    <link rel="icon" type="image/png" sizes="16x16"/>
+    <link rel="icon" type="image/png" sizes="16x16" />
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -91,6 +91,7 @@
     <script>
         const { jsPDF } = window.jspdf;
         var config = {}
+        let corBotao
         $.fn.modal.Constructor.prototype.enforceFocus = function () { };
         $.fn.modal.Constructor.prototype._enforceFocus = function () { };
         $.ajax({
@@ -100,12 +101,16 @@
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
                 config = data.Configuracao
+                corBotao = config.CorBotao;
                 $('title').text(`${config.Titulo} | ${$('#title').text()}`)
                 if (config.LogoId) {
                     $('link[rel="icon"]').attr('href', `data:image/png;base64,${config.Logo}`)
                     $('#home-button-logo img').attr('src', `data:image/png;base64,${config.Logo}`)
                 }
-                    $('#home-button-logo').css('display', 'block')
+                $('#home-button-logo').css('display', 'block')
+                if (config.LogoRelatorioId) {
+                    logoRelatorio = config.LogoRelatorio
+                }
             }
         });
     </script>

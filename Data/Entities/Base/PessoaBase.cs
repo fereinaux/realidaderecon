@@ -29,6 +29,7 @@ namespace Data.Entities.Base
         public DateTime? DataNascimento { get; set; }
      
         public string Email { get; set; }
+        public string Camisa { get; set; }
         public string Fone { get; set; }
         public string Profissão { get; set; }
         public string Instagram { get; set; }

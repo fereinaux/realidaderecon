@@ -1,6 +1,7 @@
 ﻿using Arquitetura.Controller;
 using Arquitetura.ViewModels;
 using Core.Business.Account;
+using Core.Business.Arquivos;
 using Core.Business.Configuracao;
 using Core.Business.Equipantes;
 using Core.Business.Equipes;
@@ -25,12 +26,14 @@ namespace SysIgreja.Controllers
         private readonly IEquipesBusiness equipesBusiness;
         private readonly IReunioesBusiness reunioesBusiness;
         private readonly IEventosBusiness eventosBusiness;
+        private readonly IArquivosBusiness arquivosBusiness;
 
-        public EquipeController(IEquipesBusiness equipesBusiness, IConfiguracaoBusiness configuracaoBusiness, IEventosBusiness eventosBusiness, IAccountBusiness accountBusiness, IReunioesBusiness reunioesBusiness) : base(eventosBusiness, accountBusiness, configuracaoBusiness)
+        public EquipeController(IEquipesBusiness equipesBusiness, IArquivosBusiness arquivosBusiness, IConfiguracaoBusiness configuracaoBusiness, IEventosBusiness eventosBusiness, IAccountBusiness accountBusiness, IReunioesBusiness reunioesBusiness) : base(eventosBusiness, accountBusiness, configuracaoBusiness)
         {
             this.equipesBusiness = equipesBusiness;
             this.reunioesBusiness = reunioesBusiness;
             this.eventosBusiness = eventosBusiness;
+            this.arquivosBusiness = arquivosBusiness;
         }
 
         public ActionResult Index()
@@ -97,7 +100,8 @@ namespace SysIgreja.Controllers
             {
                 Id = x.Id,
                 Equipe = x.Description,
-                QuantidadeMembros = equipesBusiness.GetMembrosEquipe(EventoId.Value, (EquipesEnum)x.Id).Count()
+                QuantidadeMembros = equipesBusiness.GetMembrosEquipe(EventoId.Value, (EquipesEnum)x.Id).Count(),
+                QtdAnexos = arquivosBusiness.GetArquivosByEquipe((EquipesEnum)x.Id).Count()
             });
 
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
@@ -159,6 +163,28 @@ namespace SysIgreja.Controllers
                     Apelido = UtilServices.CapitalizarNome(x.Apelido),
                     Foto = x.Arquivos.Any(y => y.IsFoto) ? Convert.ToBase64String(x.Arquivos.FirstOrDefault(y => y.IsFoto).Conteudo) : ""
                 }).ToList().OrderBy(x => x.Equipe ).ThenBy(x => x.Nome);
+
+            var json = Json(new { data = result }, JsonRequestBehavior.AllowGet);
+            json.MaxJsonLength = Int32.MaxValue;
+            return json;
+        }
+
+
+        [HttpPost]
+        public ActionResult GetMembrosEquipeDatatable(int EventoId, EquipesEnum EquipeId)
+        {
+            var query = equipesBusiness
+                .GetMembrosEquipeDatatable(EventoId, EquipeId)
+                .ToList();
+
+            var result = query
+            .Select(x => new
+            {
+                Id = x.Id,
+                Nome = x.Equipante.Nome,
+                Idade = UtilServices.GetAge(x.Equipante.DataNascimento),
+                Tipo = x.Tipo.GetDescription(),
+            });
 
             var json = Json(new { data = result }, JsonRequestBehavior.AllowGet);
             json.MaxJsonLength = Int32.MaxValue;

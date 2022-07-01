@@ -1,7 +1,5 @@
 ﻿using Core.Models.Configuracao;
-using Core.Models.Eventos;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Core.Business.Configuracao
 {
@@ -13,5 +11,7 @@ namespace Core.Business.Configuracao
         void PostConfiguracao(PostConfiguracaoModel model);
         void PostLogo(int logoId);
         void PostBackground(int backgroundId);
+        void PostLogoRelatorio(int logoId);
+        void PostBackgroundCelular(int backgroundId);
     }
 }

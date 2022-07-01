@@ -21,5 +21,6 @@ namespace Data.Entities
         public EquipesEnum Equipe { get; set; }
         public TiposEquipeEnum Tipo { get; set; }
         public virtual ICollection<PresencaReuniao> Presencas { get; set; }
+        public virtual ICollection<Circulo> Circulos { get; set; }
     }
 }

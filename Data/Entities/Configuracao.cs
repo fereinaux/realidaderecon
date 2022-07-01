@@ -1,7 +1,5 @@
 ﻿using Data.Entities.Base;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Utils.Enums;
 
 namespace Data.Entities
@@ -12,8 +10,12 @@ namespace Data.Entities
         public int Id { get; set; }
         public int? LogoId { get; set; }
         public Arquivo Logo { get; set; }
+        public int? LogoRelatorioId { get; set; }
+        public Arquivo LogoRelatorio { get; set; }
         public int? BackgroundId { get; set; }
         public Arquivo Background { get; set; }
+        public int? BackgroundCelularId { get; set; }
+        public Arquivo BackgroundCelular { get; set; }
         public string Titulo { get; set; }
         public string CorBotao { get; set; }
         public string InscricaoConcluida { get; set; }

@@ -43,6 +43,11 @@ namespace Core.Business.Etiquetas
             return ParticipanteEtiquetasRepo.GetAll(x => x.ParticipanteId == participanteId)?.Include(x => x.Etiqueta)?.Select(x => x.Etiqueta);
         }
 
+        public IQueryable<Etiqueta> GetEtiquetasByEquipante(int equipanteId, int eventoId)
+        {
+            return ParticipanteEtiquetasRepo.GetAll(x => x.EquipanteId == equipanteId && x.EventoId == eventoId)?.Include(x => x.Etiqueta)?.Select(x => x.Etiqueta);
+        }
+
         public void PostEtiqueta(PostEtiquetaModel model)
         {
             Data.Entities.Etiqueta etiqueta = null;

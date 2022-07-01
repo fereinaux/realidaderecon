@@ -9,6 +9,7 @@ namespace Core.Business.Etiquetas
     {
         IQueryable<Data.Entities.Etiqueta> GetEtiquetas();
         IQueryable<Data.Entities.Etiqueta> GetEtiquetasByParticipante(int participanteId);
+        IQueryable<Data.Entities.Etiqueta> GetEtiquetasByEquipante(int equipanteId, int eventoId);
         void PostEtiqueta(PostEtiquetaModel model);
         Data.Entities.Etiqueta GetEtiquetaById(int id);
         void DeleteEtiqueta(int id);

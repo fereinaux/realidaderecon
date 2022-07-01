@@ -69,6 +69,7 @@ namespace Core.Business.Lancamento
             Data.Entities.Lancamento lancamento = new Data.Entities.Lancamento
             {
                 Descricao = descricao,
+                Origem = model.Origem,
                 Valor = model.Valor,
                 MeioPagamentoId = model.MeioPagamentoId,
                 EventoId = model.EventoId > 0 ? model.EventoId : evento.Id,
@@ -77,11 +78,19 @@ namespace Core.Business.Lancamento
                 ParticipanteId = model.ParticipanteId,
                 EquipanteId = model.EquipanteId,
                 Status = StatusEnum.Quitado,
-                Tipo = TiposLancamentoEnum.Receber
+                Tipo = TiposLancamentoEnum.Receber,
+                DataCadastro = model.Data
             };
 
             lancamentoRepository.Insert(lancamento);
             lancamentoRepository.Save();
+            if (model.Data.HasValue)
+            {
+                lancamento.DataCadastro = model.Data;
+                lancamentoRepository.Update(lancamento);
+                lancamentoRepository.Save();
+            }
+
         }
 
         public void DeleteLancamento(int id)
@@ -103,8 +112,8 @@ namespace Core.Business.Lancamento
         public IQueryable<Data.Entities.Lancamento> GetPagamentosEquipante(int equipanteId)
         {
             var evento = eventosBusiness.GetEventoAtivo() ?? eventosBusiness.GetEventos().OrderByDescending(x => x.DataEvento).First();
-           
-            return lancamentoRepository.GetAll(x => x.EquipanteId == equipanteId && x.EventoId == evento.Id)                
+
+            return lancamentoRepository.GetAll(x => x.EquipanteId == equipanteId && x.EventoId == evento.Id)
                 .Include(x => x.CentroCusto)
                 .Include(x => x.ContaBancaria)
                 .Include(x => x.Evento)
@@ -114,7 +123,7 @@ namespace Core.Business.Lancamento
 
         public IQueryable<Data.Entities.Lancamento> GetPagamentosEvento(int eventoId)
         {
-            return lancamentoRepository.GetAll(x => x.EventoId == eventoId).Include(x =>x.MeioPagamento).Include(x => x.ContaBancaria)
+            return lancamentoRepository.GetAll(x => x.EventoId == eventoId).Include(x => x.MeioPagamento).Include(x => x.ContaBancaria)
                 .Include(x => x.Evento)
                 .Include(x => x.MeioPagamento);
         }
@@ -134,10 +143,11 @@ namespace Core.Business.Lancamento
             if (model.Id > 0)
             {
                 lancamento = GetLancamentoById(model.Id);
-
+                lancamento.Origem = model.Origem;
                 lancamento.Descricao = model.Descricao;
                 lancamento.Observacao = model.Observacao;
                 lancamento.Valor = model.Valor;
+                lancamento.DataCadastro = model.Data;
                 lancamento.MeioPagamentoId = model.MeioPagamentoId;
                 lancamento.CentroCustoId = model.CentCustoId;
                 lancamento.ContaBancariaId = model.ContaBancariaId > 0 ? (int?)model.ContaBancariaId : null;
@@ -148,6 +158,7 @@ namespace Core.Business.Lancamento
             {
                 lancamento = new Data.Entities.Lancamento
                 {
+                    Origem = model.Origem,
                     Descricao = model.Descricao,
                     Valor = model.Valor,
                     Observacao = model.Observacao,
