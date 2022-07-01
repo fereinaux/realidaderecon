@@ -137,7 +137,8 @@ function PostParticipante() {
                         Medicacao: $(`#participante-medicacao`).val(),
                         HasAlergia: $("input[type=radio][name=participante-hasalergia]:checked").val(),
                         Alergia: $(`#participante-alergia`).val(),
-                        Sexo: $("input[type=radio][name=participante-sexo]:checked").val()
+                        Sexo: $("input[type=radio][name=participante-sexo]:checked").val(),
+                        Etiquetas: $('.participante-etiquetas').val()
                     }),
                 success: function () {
                     SuccessMesageOperation();
@@ -194,7 +195,9 @@ function GetParticipante() {
 
                 $(`#participante-latitude`).val((data.Participante.Latitude || '').replaceAll(',', '.'));
                 $(`#participante-longitude`).val((data.Participante.Longitude || '').replaceAll(',', '.'));
-                montarMapa()
+                if ($('#map').length > 0) {
+                    montarMapa()
+                }
                 $(`#participante-nome-convite`).val(data.Participante.NomeConvite);
                 $(`#participante-fone-convite`).val(data.Participante.FoneConvite);
                 $(`#participante-nome-contato`).val(data.Participante.NomeContato);
@@ -320,6 +323,11 @@ function GetEquipante() {
                 $('.dados-equipante').removeClass('d-none');
                 $('.dados-participante-contato input').removeClass('required');
                 $('.dados-participante-contato input[id*="fone"]').removeClass('fone');
+                $('#marcadores').html(data.Equipante.EtiquetasList.map(etiqueta => `<span  class="badge m-r-xs" style="background-color:${etiqueta.Cor};color:#fff">${etiqueta.Nome}</span>`).join().replace(/,/g, ''))
+                $('#participante-etiquetas').html(`${data.Etiquetas.map(etiqueta => `<option data-cor="${etiqueta.Cor}" value=${etiqueta.Id}>${etiqueta.Nome}</option>`)
+                    }`)
+                $('#participante-etiquetas').val(data.Equipante.EtiquetasList.map(etiqueta => etiqueta.Id))
+                $('.participante-etiquetas').select2()
                 if (data.Equipante.Foto) {
 
                     $('#foto').attr("src", 'data:image/jpeg;base64,' + data.Equipante.Foto)
@@ -347,8 +355,8 @@ function GetEquipante() {
 
                 $(".participante-info").removeClass('d-none');
 
-                $(".quarto-info").addClass('d-none');
 
+                $('.quarto').text(data.Equipante.Quarto || "Sem Quarto");
 
                 if (data.Equipante.Checkin) {
                     $('.status').text("Presente");
@@ -473,6 +481,8 @@ function PostPagamento() {
             data: JSON.stringify(
                 {
                     EventoId: $("#eventoid").val(),
+                    Origem: $("#pagamentos-origem").val(),
+                    Data: moment($("#pagamentos-data").val(), 'DD/MM/YYYY', 'pt-br').toJSON(),
                     ParticipanteId: $("#pagamentos-participanteid").val() > 0 ? $("#pagamentos-participanteid").val() : null,
                     EquipanteId: $("#pagamentos-equipanteid").val() > 0 ? $("#pagamentos-equipanteid").val() : null,
                     MeioPagamentoId: $("#pagamentos-meiopagamento").val(),
@@ -480,6 +490,8 @@ function PostPagamento() {
                     Valor: Number($("#pagamentos-valor").val())
                 }),
             success: function () {
+                $("#pagamentos-origem").val('')
+                $("#pagamentos-data").val(moment().format('DD/MM/YYYY'));
                 Pagamentos($("#pagamentos-participanteid").val() > 0 ? $("#pagamentos-participanteid").val() : $("#pagamentos-equipanteid").val());
                 SuccessMesageOperation();
                 GetParticipante();
@@ -530,6 +542,8 @@ function CarregarValorTaxa() {
 function Pagamentos(id) {
     $('.contabancaria').addClass('d-none');
     $("#pagamentos-valor").val($("#pagamentos-valor").data($("#equipante-id").val() > 0 ? "valor-equipante" : "valor-realista"));
+    $("#pagamentos-origem").val('')
+    $("#pagamentos-data").val(moment().format('DD/MM/YYYY'));
     $("#pagamentos-participanteid").val($("#participante-id").val());
     $("#pagamentos-equipanteid").val($("#equipante-id").val());
     $("#pagamentos-meiopagamento").val($("#pagamentos-meiopagamento option:first").val());
